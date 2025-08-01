@@ -1,0 +1,55 @@
+platform: Android
+buildPlatform:
+displayName: LambdaTest App Automate - Espresso
+description: "Run your Espresso tests on LambdaTest App Automate"
+inputs:
+- key: "LT_USERNAME"
+  defaultValue: "$LT_USERNAME"
+  isRequired: true
+  title: LambdaTest username
+  description: Username of the LambdaTest account.
+  helpText:
+- key: "LT_ACCESS_KEY"
+  defaultValue: "$LT_ACCESS_KEY"
+  isRequired: true
+  title: LambdaTest access key
+  description: Access key for the LambdaTest account.
+  helpText:
+- key: "APK_PATH"
+  defaultValue: "$APK_PATH"
+  isRequired: true
+  title: Path of the apk
+  description: Full path of the apk file
+  helpText:
+- key: "TEST_APK_PATH"
+  defaultValue: "$TEST_APK_PATH"
+  isRequired: true
+  title: Path of the testSuite apk
+  description: Path for the generated *androidTest.apk file
+  helpText:
+- key: "LT_PAYLOAD"
+  defaultValue: |
+    {
+      "app": "LT_APP_URL",
+      "testSuite": "LT_TEST_URL",
+      "device": ["Galaxy S21 5G-12"],
+      "queueTimeout": 10800,
+      "IdleTimeout": 150,
+      "network": false,
+      "deviceLog": true,
+      "build": "Proverbial-Espresso"
+    }
+  editorType: textarea
+  isRequired: false
+  title: Build Payload
+  description: "`LT_APP_URL` and `LT_TEST_URL` will be auto generated. Please check [documentation](https://www.lambdatest.com/support/docs/getting-started-with-espresso-testing) for more details about the payload."
+- key: "LT_TIMEOUT"
+  defaultValue: "600"
+  isRequired: true
+  title: Timeout
+  description: LambdaTest plan timeout in seconds
+  helpText:
+processFilename: ruby
+processArguments: '%STEP_TEMP%/main.rb'
+files:
+  - 'main.rb'
