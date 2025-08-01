@@ -135,13 +135,13 @@ def check_status_for_all_builds(build_result, test_timeout, username, access_key
     threads.each(&:join)
 end
 
-apk_path = env_has_key('APK_PATH')
-test_apk_app = env_has_key('TEST_APK_PATH')
+apk_path = env_has_key('AC_APK_PATH')
+test_apk_app = env_has_key('AC_TEST_APK_PATH')
 
-username = env_has_key('LT_USERNAME')
-access_key = env_has_key('LT_ACCESS_KEY')
-test_timeout = env_has_key('LT_TIMEOUT').to_i
-payload = JSON.parse(env_has_key('LT_PAYLOAD'))
+username = env_has_key('AC_LT_USERNAME')
+access_key = env_has_key('AC_LT_ACCESS_KEY')
+test_timeout = env_has_key('AC_LT_TIMEOUT').to_i
+payload = JSON.parse(env_has_key('AC_LT_PAYLOAD'))
 
 $build_result = {}
 
