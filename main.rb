@@ -118,13 +118,13 @@ def check_status(build_id, device_name, test_timeout, username, access_key)
   response = JSON.parse(res.body, symbolize_names: true)
   status = response[:data][:status_ind]
   if status != 'queued' && status != 'running' && status != ''
-    puts('Execution finished for build ID: ' + build_id).green
+    puts ('Execution finished for build ID: ' + build_id).green
     test_results(build_id, device_name, username, access_key) if response[:data][:build_id]
     if status == 'failed'
-      puts('Test plan failed for build ID: ' + build_id).red
+      puts ('Test plan failed for build ID: ' + build_id).red
     end
   else
-    puts('Test plan is still running... for build ID: ' + build_id).yellow
+    puts ('Test plan is still running... for build ID: ' + build_id).yellow
     STDOUT.flush
     sleep(10)
     check_status(build_id, device_name, test_timeout - 10, username, access_key)
