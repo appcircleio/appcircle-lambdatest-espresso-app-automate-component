@@ -14,3 +14,7 @@ Run your Espresso tests on LambdaTest App Automate
 ## Optional Inputs
 
 - `AC_LT_PAYLOAD`: Build Payload. `AC_LT_APP_URL` and `AC_LT_TEST_URL` will be auto generated. Please check [documentation](https://www.lambdatest.com/support/docs/getting-started-with-espresso-testing) for more details about the payload.
+
+## Outputs
+
+- `AC_LT_TEST_RESULT_PATH`: Path to save test results from LambdaTest. It should be a writable directory, by default under `AC_OUTPUT_DIR`."

@@ -35,7 +35,10 @@ def upload(file, endpoint, username, access_key)
   res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
     http.request(req)
   end
-  JSON.parse(res.body, symbolize_names: true)
+  unless res.is_a?(Net::HTTPSuccess)
+    abort("Failed to upload file #{file}.\nHTTP #{res.code} - #{res.message}\n#{res.body}")
+  end
+  JSON.parse(res.body, symbolize_names: true)  
 end
 
 def post(payload, endpoint, username, access_key)
@@ -46,7 +49,10 @@ def post(payload, endpoint, username, access_key)
   res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
     http.request(req)
   end
-  JSON.parse(res.body, symbolize_names: true)
+  unless res.is_a?(Net::HTTPSuccess)
+    abort("POST request to #{endpoint} failed.\nHTTP #{res.code} - #{res.message}\n#{res.body}")
+  end
+  JSON.parse(res.body, symbolize_names: true)  
 end
 
 def build(payload, app_url, test_suite_url, username, access_key)
@@ -81,6 +87,9 @@ def test_results(build_id, device, username, access_key)
   res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
     http.request(req)
   end
+  unless res.is_a?(Net::HTTPSuccess)
+    abort("Failed to fetch test results for build #{build_id}.\nHTTP #{res.code} - #{res.message}")
+  end  
   file_name = "#{device}.xml"
   output_file = File.join(test_report_folder, file_name)
   File.write(output_file, res.body)
@@ -101,9 +110,8 @@ def check_status(build_id, device_name, test_timeout, username, access_key)
   res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
     http.request(req)
   end
-  case res
-  when Net::HTTPClientError, Net::HTTPServerError
-    abort "\nError checking status: #{res.code} (#{res.message})\n\n"
+  unless res.is_a?(Net::HTTPSuccess)
+    abort("Failed to fetch test results for build #{build_id}.\nHTTP #{res.code} - #{res.message}")
   end
   response = JSON.parse(res.body, symbolize_names: true)
   status = response[:data][:status_ind]
