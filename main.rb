@@ -73,7 +73,7 @@ def build(payload, app_url, test_suite_url, username, access_key)
 end
 
 def test_results(build_id, device, username, access_key)
-  test_report_folder = "#{ENV['OUTPUT_DIR']}/test-results"
+  test_report_folder = "#{env_has_key('AC_OUTPUT_DIR')}/test-results"
   FileUtils.mkdir(test_report_folder) unless Dir.exist?(test_report_folder)
   uri = URI.parse("#{LT_MOBILE_DOMAIN}#{APP_AUTOMATE_JUNIT_REPORT_ENDPOINT}#{build_id}/report?encoder=false")
   req = Net::HTTP::Get.new(uri.request_uri, { 'Content-Type' => 'application/xml' })
@@ -84,8 +84,8 @@ def test_results(build_id, device, username, access_key)
   file_name = "#{device}.xml"
   output_file = File.join(test_report_folder, file_name)
   File.write(output_file, res.body)
-  File.open(ENV['ENV_FILE_PATH'], 'a') do |f|
-    f.puts "TEST_RESULT_PATH=#{test_report_folder}"
+  File.open(env_has_key('AC_ENV_FILE_PATH'), 'a') do |f|
+    f.puts "AC_LT_TEST_RESULT_PATH=#{test_report_folder}"
   end
 end
 
