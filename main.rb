@@ -97,7 +97,7 @@ def test_results(build_id, device, username, access_key)
   output_file = File.join(test_report_folder, file_name)
   File.write(output_file, res.body)
   File.open(env_has_key('AC_ENV_FILE_PATH'), 'a') do |f|
-    f.puts "AC_LT_TEST_RESULT_PATH=#{test_report_folder}".green
+    f.puts "AC_LT_TEST_RESULT_PATH=#{test_report_folder}"
   end
 end
 
